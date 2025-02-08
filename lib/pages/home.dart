@@ -5,7 +5,13 @@ import 'package:newproj/pages/detail_page.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<StatefulWidget> createState() => _HomePageState();
   
+}
+
+class HomePageData extends StatelessWidget {
+  const HomePageData({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -97,20 +103,17 @@ class HomePage extends StatefulWidget {
       )
     );
   }
-
-  @override
-  State<StatefulWidget> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   // const HomePage({super.key});
 
-  int currentPageIndex = 0;
+  int currentPageIndex = 2;
   
   final _pageOptions = [
     WeatherPage(),
     DetailPage(),
-    HomePage()
+    HomePageData()
   ];
 
   @override

@@ -29,53 +29,22 @@ class _WeatherPageState extends State<WeatherPage> {
   @override
   void initState() {
     super.initState();
-    _wf.currentWeatherByCityName("Bhubaneshwar").then((w) {
+    _wf.currentWeatherByCityName("Chicago").then((w) {
       setState(() {
         _weather = w;
       });
     });
   }
-  //  // api key
-  // final _weatherService = WeatherProvider('23474f85c62938615d08f2d30942d65e');
-  // Weather? _weather;
-
-  // // fetch weather
-  // _fetchWeather() async {
-  //   // get current city
-  //   String cityName = await _weatherService.getCurrentCity();
-
-  //   // get weather for city
-  //   try {
-  //     final weather = await _weatherService.getWeather(cityName);
-  //     setState(() {
-  //       _weather = weather;
-  //     });
-  //   }
-  //   catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // weather animations
-
-  // init state
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   // fetch weather on startup
-  //   _fetchWeather();
-  // }
-    @override
+  
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       body: _buildUI(),
     );
   }
 
   Widget _buildUI() {
-    if (_weather == null) {
+    if (_weather != null) {
       return const Center(
         child: CircularProgressIndicator(),
       );
@@ -110,30 +79,31 @@ class _WeatherPageState extends State<WeatherPage> {
                 height: 170,
                 child: Align(
                   alignment: Alignment.topCenter,
-                  child: Text.rich(
-                    textAlign: TextAlign.center,
-                    TextSpan(
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: '19°',
-                          // text: _weather?.cityName ?? "Loading city...",
-                          style: TextStyle(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            fontSize: 60,
-                          ),
-                        ),
-                        TextSpan(
-                          text: '\nPrecipitaions\nMax: 24°    Min: 18°',
-                          // text: '\n${_weather?.temperature.round().toString()}*C',
-                          style: TextStyle(
-                            color: Color.fromRGBO(255, 255, 255, 1),
-                            fontSize: 24,
-                            fontWeight: FontWeight.w300,
-                          )
-                        )
-                      ]
-                    )
-                  ),
+                  child: _locationHeader()
+                  // Text.rich(
+                  //   textAlign: TextAlign.center,
+                  //   TextSpan(
+                  //     children: <TextSpan>[
+                  //       TextSpan(
+                  //         text: '19°',
+                  //         // text: _weather?.cityName ?? "Loading city...",
+                  //         style: TextStyle(
+                  //           color: Color.fromRGBO(255, 255, 255, 1),
+                  //           fontSize: 60,
+                  //         ),
+                  //       ),
+                  //       TextSpan(
+                  //         text: '\nPrecipitaions\nMax: 24°    Min: 18°',
+                  //         // text: '\n${_weather?.temperature.round().toString()}*C',
+                  //         style: TextStyle(
+                  //           color: Color.fromRGBO(255, 255, 255, 1),
+                  //           fontSize: 24,
+                  //           fontWeight: FontWeight.w300,
+                  //         )
+                  //       )
+                  //     ]
+                  //   )
+                  // ),
                 )
               ),
 
@@ -412,5 +382,9 @@ class _WeatherPageState extends State<WeatherPage> {
           // ),
           // )
       );
+  }
+
+  Widget _locationHeader() {
+    return Text(_weather?.areaName ?? "Failed");
   }
 }

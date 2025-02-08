@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newproj/pages/weather_page.dart';
 
 class DetailPage extends StatelessWidget {
   const DetailPage({super.key});
@@ -20,6 +21,7 @@ class DetailPage extends StatelessWidget {
         ),
         child: Column(
           children: [
+          
 
             Padding(
               padding: EdgeInsets.only(top: 40),
