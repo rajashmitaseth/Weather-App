@@ -1,17 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:newproj/consts.dart';
 import 'package:newproj/pages/home.dart';
 import 'package:newproj/pages/detail_page.dart';
-import 'package:newproj/providers/weather_provider.dart';
-import 'package:newproj/models/weather_model.dart';
+import 'package:weather/weather.dart';
 
-class WeatherPageData extends StatelessWidget {
-  const WeatherPageData({super.key});
+// class WeatherPageData extends StatelessWidget {
+//   const WeatherPageData(this._weather);
+
+//   final Weather? _weather;
+//   // const WeatherPageData({super.key});
+
+
+// }
+
+class WeatherPage extends StatefulWidget {
+  const WeatherPage({super.key});
 
   @override
+  State<WeatherPage> createState() => _WeatherPageState();
+}
+
+class _WeatherPageState extends State<WeatherPage> {
+
+  final WeatherFactory _wf = WeatherFactory(OPENWEATHER_API_KEY);
+
+  Weather? _weather;
+
+  @override
+  void initState() {
+    super.initState();
+    _wf.currentWeatherByCityName("Bhubaneshwar").then((w) {
+      setState(() {
+        _weather = w;
+      });
+    });
+  }
+  //  // api key
+  // final _weatherService = WeatherProvider('23474f85c62938615d08f2d30942d65e');
+  // Weather? _weather;
+
+  // // fetch weather
+  // _fetchWeather() async {
+  //   // get current city
+  //   String cityName = await _weatherService.getCurrentCity();
+
+  //   // get weather for city
+  //   try {
+  //     final weather = await _weatherService.getWeather(cityName);
+  //     setState(() {
+  //       _weather = weather;
+  //     });
+  //   }
+  //   catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  // weather animations
+
+  // init state
+  // @override
+  // void initState() {
+  //   super.initState();
+
+  //   // fetch weather on startup
+  //   _fetchWeather();
+  // }
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
       
-      body: Container(
+      body: _buildUI(),
+    );
+  }
+
+  Widget _buildUI() {
+    if (_weather == null) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+    return Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
@@ -342,91 +411,6 @@ class WeatherPageData extends StatelessWidget {
           //   ],
           // ),
           // )
-      ),
-
-      
-    );
-  }
-}
-
-class WeatherPage extends StatefulWidget {
-  const WeatherPage({super.key});
-
-  @override
-  State<WeatherPage> createState() => _WeatherPageState();
-}
-
-class _WeatherPageState extends State<WeatherPage> {
-  //  // api key
-  // final _weatherService = WeatherProvider('23474f85c62938615d08f2d30942d65e');
-  // Weather? _weather;
-
-  // // fetch weather
-  // _fetchWeather() async {
-  //   // get current city
-  //   String cityName = await _weatherService.getCurrentCity();
-
-  //   // get weather for city
-  //   try {
-  //     final weather = await _weatherService.getWeather(cityName);
-  //     setState(() {
-  //       _weather = weather;
-  //     });
-  //   }
-  //   catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  // weather animations
-
-  // init state
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   // fetch weather on startup
-  //   _fetchWeather();
-  // }
-  int currentPageIndex = 0;
-  final _pageOptions = [
-    WeatherPageData(),
-    DetailPage(),
-    HomePage()
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar: NavigationBar(
-        backgroundColor: Color.fromRGBO(149, 60, 171, 1),
-        elevation: 0,
-        height: 70,
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        indicatorColor: Colors.transparent,
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-            icon: Icon(Icons.location_on_outlined, color: Color.fromRGBO(255, 255, 255, 1)),
-            label: '',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.add_circle_outline, color: Color.fromRGBO(255, 255, 255, 1)),
-            label: '',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.menu, color: Color.fromRGBO(255, 255, 255, 1)),
-            label: '',
-          )
-        ]
-      ),
-
-      body: _pageOptions[currentPageIndex],
-
-    );
+      );
   }
 }
